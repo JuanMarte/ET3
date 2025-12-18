@@ -216,6 +216,8 @@ const estructura_alumnograduacion = {
                 type: 'text',
                 component_visible_size: 30
             },
+            is_file_ref: true,
+            file_server_path: 'http://193.147.87.202/ET2/filesuploaded/files_alumnograduacion_fotoacto/',
             rules: {
                 validations: {
                     SEARCH: {

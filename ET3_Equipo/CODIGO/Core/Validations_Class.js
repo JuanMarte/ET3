@@ -124,15 +124,18 @@ class Validations {
 	}
 
 	/**
-	 * Validates if the input value is a valid date in DD/MM/YYYY format
+	 * Validates if the input value is a valid date in YYYY-MM-DD format
 	 * @param {string} id - Id of the html element
 	 * @returns {boolean} - True if valid date, false otherwise
 	 */
 	date_format(id) {
 		let valor = document.getElementById(id).value;
-		// Simple regex for DD/MM/YYYY
-		let date_regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/;
+		// Regex for YYYY-MM-DD
+		let date_regex = /^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 		if (!date_regex.test(valor)) {
+			// Also check for empty if it's not required (usually handled by min_size or other rules)
+			// But if the validation is explicitly called, it likely expects a date.
+			// If the field is optional, the caller should check for emptiness before calling this.
 			return false;
 		}
 		return true;
