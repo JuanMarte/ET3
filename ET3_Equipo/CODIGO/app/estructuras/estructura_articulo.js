@@ -1,10 +1,11 @@
 const estructura_articulo = {
     entity: 'articulo',
     attributes: {
-        articulo_id: {
+        CodigoA: {
             html: {
                 tag: 'input',
-                type: 'number'
+                type: 'text',
+                component_visible_size: 10
             },
             is_pk: true,
             is_autoincrement: true,
@@ -16,7 +17,7 @@ const estructura_articulo = {
                 }
             }
         },
-        articulo_titulo: {
+        AutoresA: {
             html: {
                 tag: 'input',
                 type: 'text',
@@ -25,41 +26,166 @@ const estructura_articulo = {
             rules: {
                 validations: {
                     ADD: {
-                        min_size: 5,
-                        max_size: 100,
-                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,!?-]+$'
+                        min_size: 2,
+                        max_size: 200,
+                        exp_reg: '^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$'
                     },
                     EDIT: {
-                        min_size: 5,
-                        max_size: 100,
-                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,!?-]+$'
+                        min_size: 2,
+                        max_size: 200,
+                        exp_reg: '^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$'
                     },
                     SEARCH: {
-                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,!?-]*$'
+                        exp_reg: '^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$'
                     }
                 }
             }
         },
-        articulo_contenido: {
+        TituloA: {
             html: {
-                tag: 'textarea',
-                rows: 10,
-                columns: 60
+                tag: 'input',
+                type: 'text',
+                component_visible_size: 50
             },
             rules: {
                 validations: {
                     ADD: {
-                        min_size: 50,
-                        max_size: 5000
+                        min_size: 1,
+                        max_size: 100,
+                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,-]+$'
                     },
                     EDIT: {
-                        min_size: 50,
-                        max_size: 5000
+                        min_size: 1,
+                        max_size: 100,
+                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,-]+$'
+                    },
+                    SEARCH: {
+                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,-]*$'
                     }
                 }
             }
         },
-        articulo_fecha: {
+        TituloR: {
+            html: {
+                tag: 'input',
+                type: 'text',
+                component_visible_size: 50
+            },
+            rules: {
+                validations: {
+                    ADD: {
+                        min_size: 1,
+                        max_size: 100,
+                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,-]+$'
+                    },
+                    EDIT: {
+                        min_size: 1,
+                        max_size: 100,
+                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,-]+$'
+                    },
+                    SEARCH: {
+                        exp_reg: '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s\\.,-]*$'
+                    }
+                }
+            }
+        },
+        ISSN: {
+            html: {
+                tag: 'input',
+                type: 'text',
+                component_visible_size: 9
+            },
+            rules: {
+                validations: {
+                    ADD: {
+                        min_size: 9,
+                        max_size: 9,
+                        exp_reg: '^[0-9]{4}-[0-9]{4}$'
+                    },
+                    EDIT: {
+                        min_size: 9,
+                        max_size: 9,
+                        exp_reg: '^[0-9]{4}-[0-9]{4}$'
+                    },
+                    SEARCH: {
+                        exp_reg: '^[0-9-]*$'
+                    }
+                }
+            }
+        },
+        VolumenR: {
+            html: {
+                tag: 'input',
+                type: 'text',
+                component_visible_size: 4
+            },
+            rules: {
+                validations: {
+                    ADD: {
+                        min_size: 1,
+                        max_size: 4,
+                        exp_reg: '^[0-9]+$'
+                    },
+                    EDIT: {
+                        min_size: 1,
+                        max_size: 4,
+                        exp_reg: '^[0-9]+$'
+                    },
+                    SEARCH: {
+                        exp_reg: '^[0-9]*$'
+                    }
+                }
+            }
+        },
+        PagIniA: {
+            html: {
+                tag: 'input',
+                type: 'text',
+                component_visible_size: 4
+            },
+            rules: {
+                validations: {
+                    ADD: {
+                        min_size: 1,
+                        max_size: 4,
+                        exp_reg: '^[0-9]+$'
+                    },
+                    EDIT: {
+                        min_size: 1,
+                        max_size: 4,
+                        exp_reg: '^[0-9]+$'
+                    },
+                    SEARCH: {
+                        exp_reg: '^[0-9]*$'
+                    }
+                }
+            }
+        },
+        PagFinA: {
+            html: {
+                tag: 'input',
+                type: 'text',
+                component_visible_size: 4
+            },
+            rules: {
+                validations: {
+                    ADD: {
+                        min_size: 1,
+                        max_size: 4,
+                        exp_reg: '^[0-9]+$'
+                    },
+                    EDIT: {
+                        min_size: 1,
+                        max_size: 4,
+                        exp_reg: '^[0-9]+$'
+                    },
+                    SEARCH: {
+                        exp_reg: '^[0-9]*$'
+                    }
+                }
+            }
+        },
+        FechaPublicacionR: {
             html: {
                 tag: 'input',
                 type: 'date'
@@ -67,82 +193,25 @@ const estructura_articulo = {
             rules: {
                 validations: {
                     ADD: {
-                        exp_reg: '^\\d{4}-\\d{2}-\\d{2}$'
+                        date_format: true
                     },
                     EDIT: {
-                        exp_reg: '^\\d{4}-\\d{2}-\\d{2}$'
+                        date_format: true
                     },
                     SEARCH: {
-                        exp_reg: '^\\d{4}-\\d{2}-\\d{2}$'
+                        date_format: true
                     }
                 }
             }
         },
-        articulo_publicado: {
-            html: {
-                tag: 'select',
-                options: ['Sí', 'No']
-            },
-            default_value: 'No',
-            rules: {
-                validations: {
-                    ADD: {
-                        exp_reg: '^(Sí|No)$'
-                    },
-                    EDIT: {
-                        exp_reg: '^(Sí|No)$'
-                    }
-                }
-            }
-        },
-        articulo_categorias: {
-            html: {
-                tag: 'select',
-                options: ['Tecnología', 'Ciencia', 'Educación', 'Salud', 'Entretenimiento'],
-                multiple: true,
-                component_visible_size: 5
-            },
-            rules: {
-                validations: {
-                    ADD: {
-                        personalized: true
-                    },
-                    EDIT: {
-                        personalized: true
-                    }
-                }
-            }
-        },
-        articulo_etiquetas: {
+        FicheropdfA: {
             html: {
                 tag: 'input',
                 type: 'text',
-                component_visible_size: 50
-            },
-            rules: {
-                validations: {
-                    ADD: {
-                        max_size: 100,
-                        exp_reg: '^[a-zA-Z0-9,#\\s]+$'
-                    },
-                    EDIT: {
-                        max_size: 100,
-                        exp_reg: '^[a-zA-Z0-9,#\\s]+$'
-                    },
-                    SEARCH: {
-                        exp_reg: '^[a-zA-Z0-9,#\\s]*$'
-                    }
-                }
-            }
-        },
-        articulo_imagen: {
-            html: {
-                tag: 'input',
-                type: 'text',
-                component_visible_size: 30
+                component_visible_size: 20
             },
             is_file_ref: true,
-            file_server_path: 'http://193.147.87.202/ET2/filesuploaded/files_articulo_imagen/',
+            file_server_path: 'http://193.147.87.202/ET2/filesuploaded/files_FicheropdfA/',
             rules: {
                 validations: {
                     SEARCH: {
@@ -151,23 +220,44 @@ const estructura_articulo = {
                 }
             }
         },
-        nuevo_articulo_imagen: {
+        nuevo_FicheropdfA: {
             html: {
                 tag: 'input',
-                type: 'file'
+                type: 'file',
+                multiple: false
             },
             rules: {
                 validations: {
                     ADD: {
                         no_file: true,
-                        max_size_file: 5000000,
-                        type_file: ['image/jpeg', 'image/png', 'image/gif'],
-                        format_name_file: '^[a-zA-Z0-9_\\-\\.]+\\.(jpg|jpeg|png|gif)$'
+                        max_size_file: 2000000,
+                        type_file: ['application/pdf'],
+                        format_name_file: '^[a-zA-Z0-9_\\-\\.]+\\.pdf$'
                     },
                     EDIT: {
-                        max_size_file: 5000000,
-                        type_file: ['image/jpeg', 'image/png', 'image/gif'],
-                        format_name_file: '^[a-zA-Z0-9_\\-\\.]+\\.(jpg|jpeg|png|gif)$'
+                        max_size_file: 2000000,
+                        type_file: ['application/pdf'],
+                        format_name_file: '^[a-zA-Z0-9_\\-\\.]+\\.pdf$'
+                    }
+                }
+            }
+        },
+        EstadoA: {
+            html: {
+                tag: 'select',
+                options: ['Enviado', 'Revision', 'Publicado']
+            },
+            default_value: 'Enviado',
+            rules: {
+                validations: {
+                    ADD: {
+                        exp_reg: '^(Enviado|Revision|Publicado)$'
+                    },
+                    EDIT: {
+                        exp_reg: '^(Enviado|Revision|Publicado)$'
+                    },
+                    SEARCH: {
+                        exp_reg: '^(Enviado|Revision|Publicado)?$'
                     }
                 }
             }

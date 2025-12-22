@@ -23,14 +23,14 @@ FechaPublicacionR: fecha, obligatorio '0000-00-00'
 FicheropdfA: archivo PDF, alfabéticos (sin acentos ni ñ ni espacios) y ".", Min 7 max 20, solo pdf y tamaño < 2MB
 EstadoA: valores posibles: 'Enviado','Revision','Publicado'
 
-FORMATOS PERMITIDOS - ubicacion
+FORMATOS PERMITIDOS - ubicación
 id_site: autoincremental numérico, max 11 (en ADD no se muestra pero en EDIT y SEARCH sí se muestra)
 site_latitud: decimal(9,6) NOT NULL COMMENT 'Latitud WGS84' (de -90 a 90)
 site_longitud: decimal(9,6) NOT NULL COMMENT 'Longitud WGS84' (de -180 a 180)
-site_altitude: numérico, obligatorio , max 4
+site_altitude: numérico, obligatorio, max 4
 site_locality: alfanumérico, obligatorio, max 40
 site_provider_login: alfanumérico, obligatorio, max 30
-site_north_photo: imagen (jpg), alfabéticos (sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo pdf y tamaño < 2MB
-site_south_photo: imagen (jpg), alfabéticos(sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo pdf y tamaño < 2MB
-site_east_photo: imagen (jpg), alfabéticos (sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo pdf y tamaño < 2MB
-site_west_photo: image (jpg),  alfabéticos(sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo pdf y tamaño < 2MB
+site_north_photo: imagen (jpg), alfabéticos (sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo jpg y tamaño < 2MB
+site_south_photo: imagen (jpg), alfabéticos (sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo jpg y tamaño < 2MB
+site_east_photo: imagen (jpg), alfabéticos (sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo jpg y tamaño < 2MB
+site_west_photo: imagen (jpg), alfabéticos (sin acentos ni ñ ni espacios) y ".", Min 7 max 50, solo jpg y tamaño < 2MB
