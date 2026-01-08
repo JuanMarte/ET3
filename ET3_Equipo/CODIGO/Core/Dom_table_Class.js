@@ -394,25 +394,33 @@ class dom_table {
 		return nombres;
 	}
 
-	/**
-	 * recibe un array de elemento checkbox o radio.
-	 * Si el elemento no esta seleccionado borrar su label y despues a si mismo.
-	 * 
-	 * @param {Array} listachecks array de elementos checkbox o radio del formulario 
-	 */
-	dejarsoloenumchecked(listachecks) {
-		listachecks.forEach(element => {
-			var itemsnamecheck = document.getElementsByName(element);
-			var longitud = itemsnamecheck.length;
-			for (var i = longitud - 1; i >= 0; i--) {
-				if (itemsnamecheck[i].checked !== true) {
-					document.getElementById('label_' + itemsnamecheck[i].value).remove();
-					itemsnamecheck[i].remove();
-				}
-			}
 
-		});
-	}
+/**
+     * recibe un array de elemento checkbox o radio.
+     * Si el elemento no esta seleccionado borrar su label y despues a si mismo.
+     * @param {Array} listachecks array de elementos checkbox o radio del formulario 
+     */
+    dejarsoloenumchecked(listachecks) {
+        listachecks.forEach(element => {
+            var itemsnamecheck = document.getElementsByName(element);
+            var longitud = itemsnamecheck.length;
+            // Recorremos hacia atrás porque vamos a borrar cosas
+            for (var i = longitud - 1; i >= 0; i--) {
+                if (itemsnamecheck[i].checked !== true) {
+                    
+                    // DISPARO 1: Intentamos borrar buscando por ID (Para Checkboxes)
+                    document.getElementById('label_' + itemsnamecheck[i].id)?.remove();
+                    
+                    // DISPARO 2: Intentamos borrar buscando por VALUE (Para Radios)
+                    document.getElementById('label_' + itemsnamecheck[i].value)?.remove();
+
+                    // Finalmente, borramos el input (el circulito o cuadrado)
+                    itemsnamecheck[i]?.remove();
+                }
+            }
+
+        });
+    }
 
 	/**
 	 * Se recibe un elemento del formulario y se sustituye con un replaceWith por un input text readonly
@@ -431,13 +439,14 @@ class dom_table {
 	}
 
 	/**
-	 * recibe un objeto de tipo checkbox o radio y lo elimina del formulario junto con su label
-	 * @param {Object} itemenumerado elemento formulario de tipo checkbox o radio
-	 */
-	deleteEnumItem(itemenumerado) {
-		document.getElementById('label_' + itemenumerado.value).remove();
-		itemenumerado.remove();
-	}
+     * recibe un objeto de tipo checkbox o radio y lo elimina del formulario junto con su label
+     * @param {Object} itemenumerado elemento formulario de tipo checkbox o radio
+     */
+    deleteEnumItem(itemenumerado) {
+        // El signo '?' evita el error si el elemento no existe
+        document.getElementById('label_' + itemenumerado.value)?.remove();
+        itemenumerado?.remove();
+    }
 
 	/**
 	 * Recibe el nombre de un atributo, elimina todos sus valores excepto el primero y lo transforma en un input vacio 
