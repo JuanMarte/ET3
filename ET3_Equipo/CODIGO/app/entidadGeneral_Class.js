@@ -81,6 +81,7 @@ class entidadGeneral extends EntidadAbstracta {
 
         // Botón de submit
         const submitBtn = document.createElement('button');
+        submitBtn.id = 'submit_button';
         submitBtn.type = 'button';
         submitBtn.textContent = this.obtenerTextoAccion(accion);
         submitBtn.onclick = () => this.validarYEnviar(accion);
