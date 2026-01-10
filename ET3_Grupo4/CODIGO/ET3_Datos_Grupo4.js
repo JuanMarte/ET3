@@ -22,8 +22,8 @@ const def_datos_NombreEquipo = [
     },
     {
         "Entrega": "ET3",
-        "Nombre del alumno": "Alumno 4",
-        "DNI": "12345678D",
-        "Horas dedicadas": 48
+        "Nombre del alumno": "Paloma González Herrera",
+        "DNI": "44088087P",
+        "Horas dedicadas": 54
     }
 ];
