@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación de la API - Sistema de Gestión de Entidades Dinámicas</title>
+    <link rel="stylesheet" type="text/css" href="./Base/css/IU.css">
+</head>
+
+<body>
+    <header id='header_page' class='bordeado'>
+        <span class='text_titulo_app'>Documentación de la API</span>
+    </header>
+
+    <nav class='bordeado'>
+        <h2 style="text-align: center; margin: 10px 0;">Sistema de Gestión de Entidades Dinámicas - ET3</h2>
+    </nav>
+
+    <main style="padding: 20px;">
+        <section class="api-section">
+            <div class="note">
+                <strong>Nota:</strong> Esta API documenta el sistema completo de gestión dinámica de entidades
+                desarrollado para la ET3. El sistema permite gestionar cualquier entidad definida mediante estructuras
+                JSON sin necesidad de modificar el código.
+            </div>
+
+            <h2 class="section-header">Estructura del Proyecto</h2>
+            <div class="code-block">
+          
+                ET3_Grupo4/CODIGO/<br>
+                ├── index.html                 # Página principal<br>
+                ├── API.html                   # Esta documentación<br>
+                ├── ET3_Datos_Grupo4.js        # Datos del equipo<br>
+                ├── app/                       # Aplicación específica<br>
+                │   ├── entidadGeneral_Class.js # Clase principal<br>
+                │   ├── estructuras/           # Definiciones de entidades<br>
+                │   ├── Textos_ES.js           # Traducciones español<br>
+                │   └── Textos_EN.js           # Traducciones inglés<br>
+                ├── Base/                      # Clases base<br>
+                │   ├── EntidadAbstracta.js    # Clase abstracta<br>
+                │   └── css/IU.css             # Estilos principales<br>
+                ├── Core/                      # Núcleo del sistema<br>
+                │   ├── Dom_Class.js           # Manipulación DOM<br>
+                │   ├── Dom_table_Class.js     # Tablas dinámicas<br>
+                │   ├── ExternalAccess_class.js # Comunicación backend<br>
+                │   └── Validations_Class.js   # Validaciones<br>
+                ├── locale/                    # Internacionalización<br>
+                │   └── idioma.js              # Gestión de idiomas<br>
+                └── Test/                      # Sistema de testing<br>
+                    ├── Data/                  # Tests de datos<br>
+                    └── Unit/                  # Tests unitarios<br>
+            
+            </div>
+
+            <h2 class="section-header">Estructura de Definición de Entidades</h2>
+            <div class="entity-structure">
+                <p>Todas las entidades se definen mediante estructuras JSON con el siguiente formato:</p>
+                <div class="code-block"><pre>
+                    const estructura_nombreentidad = {<br>
+                        entity: 'nombredeentidad',<br>
+                        attributes: {<br>
+                            nombre_atributo: {<br>
+                                html: {<br>
+                                    tag: 'input|textarea|select|radio|checkbox',<br>
+                                    type: 'text|date|email|password|file...',<br>
+                                    options: ['valor1', 'valor2'], // Para select/radio/checkbox<br>
+                                    rows: 3,                      // Para textarea<br>
+                                    columns: 50,                  // Para textarea<br>
+                                    multiple: true,               // Para select/file múltiple<br>
+                                    component_visible_size: 20    // Tamaño visual<br>
+                                },<br>
+                                is_pk: true,                      // Clave primaria<br>
+                                is_autoincrement: true,           // Auto-incremental<br>
+                                is_file_ref: true,                // Referencia a archivo<br>
+                                file_server_path: 'http://...',   // Ruta de archivos<br>
+                                default_value: 'valor',           // Valor por defecto<br>
+                                rules: {<br>
+                                    validations: {<br>
+                                        ADD: {                    // Validaciones para ADD<br>
+                                            min_size: 4,<br>
+                                            max_size: 20,<br>
+                                            exp_reg: '^[a-zA-Z]+$',<br>
+                                            date_format: true,<br>
+                                            no_file: true,        // Para campos file<br>
+                                            max_size_file: 2000000,<br>
+                                            type_file: ['image/jpeg'],<br>
+                                            format_name_file: '^[a-zA-Z0-9_]+\\.jpg$',<br>
+                                            personalized: true     // Validación personalizada<br>
+                                        },<br>
+                                        EDIT: { ... },            // Validaciones para EDIT<br>
+                                        SEARCH: { ... }           // Validaciones para SEARCH<br>
+                                    }<br>
+                                }<br>
+                            },<br>
+                            // resto de atributos<br>
+                        }<br>
+                    };</pre>
+                </div>
+            </div>
+
+            <h2 class="section-header">Clase Principal: entidadGeneral</h2>
+            <p>Clase que gestiona dinámicamente cualquier entidad basada en su estructura definida.</p>
+
+            <div class="method">
+                <h3>constructor(nombreEntidad)</h3>
+                <p><strong>Descripción:</strong> Inicializa una instancia para gestionar una entidad específica. Carga
+                    automáticamente la estructura correspondiente y configura la interfaz.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Obligatorio</th>
+                    </tr>
+                    <tr>
+                        <td>nombreEntidad</td>
+                        <td>String</td>
+                        <td>Nombre de la entidad a gestionar (ej: 'persona', 'articulo')</td>
+                        <td>Sí</td>
+                    </tr>
+                </table>
+                <p><strong>Comportamiento:</strong></p>
+                <ul>
+                    <li>Busca la estructura en <code>estructura_[nombreEntidad]</code></li>
+                    <li>Configura la interfaz de gestión</li>
+                    <li>Realiza una búsqueda inicial para mostrar datos</li>
+                    <li>Inicializa el selector de columnas</li>
+                </ul>
+                <p><strong>Ejemplo:</strong></p>
+                <div class="code-block"><pre>
+                    // Crear instancia para gestionar personas</br>
+                    const gestorPersonas = new entidadGeneral('persona');</br>
+                    // Crear instancia para gestionar artículos  </br>
+                    const gestorArticulos = new entidadGeneral('articulo');</br></pre>
+                </div>
+            </div>
+
+            <div class="method">
+                <h3>createForm(accion, datos)</h3>
+                <p><strong>Descripción:</strong> Crea dinámicamente un formulario completo basado en la estructura de
+                    la entidad y la acción especificada.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Valores Permitidos</th>
+                    </tr>
+                    <tr>
+                        <td>accion</td>
+                        <td>String</td>
+                        <td>Acción a realizar con el formulario</td>
+                        <td>'ADD', 'EDIT', 'DELETE', 'SEARCH', 'SHOWCURRENT'</td>
+                    </tr>
+                    <tr>
+                        <td>datos</td>
+                        <td>Object</td>
+                        <td>Datos a precargar en el formulario (para EDIT, DELETE, SHOWCURRENT)</td>
+                        <td>Objeto con pares clave-valor o {} vacío</td>
+                    </tr>
+                </table>
+                <p><strong>Métodos abreviados:</strong></p>
+                <div class="code-block"><pre>
+                    // Métodos disponibles (llaman internamente a createForm):
+                    entidad.createForm_ADD()           // Formulario para añadir
+                    entidad.createForm_EDIT(datos)     // Formulario para editar
+                    entidad.createForm_DELETE(datos)   // Formulario para eliminar  
+                    entidad.createForm_SEARCH()        // Formulario para buscar
+                    entidad.createForm_SHOWCURRENT(datos) // Ver detalle</pre>
+                </div>
+                <p><strong>Características generadas:</strong></p>
+                <ul>
+                    <li>Campos según tipo definido en estructura (input, textarea, select, etc.)</li>
+                    <li>Validaciones en tiempo real (onblur/onchange)</li>
+                    <li>Manejo especial de campos de archivo (file inputs + preview)</li>
+                    <li>Campos readonly para SHOWCURRENT y DELETE</li>
+                    <li>Traducciones automáticas de etiquetas</li>
+                    <li>Valores por defecto según definición</li>
+                </ul>
+            </div>
+
+            <div class="method">
+                <h3>validarYEnviar(accion)</h3>
+                <p><strong>Descripción:</strong> Valida todos los campos del formulario y ejecuta la acción
+                    correspondiente en el backend.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>accion</td>
+                        <td>String</td>
+                        <td>Acción a ejecutar después de validar</td>
+                    </tr>
+                </table>
+                <p><strong>Flujo de ejecución:</strong></p>
+                <ol>
+                    <li>Valida todos los campos individualmente</li>
+                    <li>Si hay errores, muestra modal de error</li>
+                    <li>Si todo es válido, ejecuta la acción correspondiente:
+                        <ul>
+                            <li><strong>ADD</strong>: Envía datos para crear nuevo registro</li>
+                            <li><strong>EDIT</strong>: Envía datos para modificar registro</li>
+                            <li><strong>DELETE</strong>: Envía datos para eliminar registro</li>
+                            <li><strong>SEARCH</strong>: Realiza búsqueda con filtros</li>
+                            <li><strong>SHOWCURRENT</strong>: Solo cierra el formulario</li>
+                        </ul>
+                    </li>
+                    <li>Actualiza la tabla de datos después de operaciones CRUD</li>
+                </ol>
+            </div>
+
+            <div class="method">
+                <h3>validarCampoIndividual(nombreAtributo, valor, accion)</h3>
+                <p><strong>Descripción:</strong> Valida un campo individual según las reglas definidas para la acción
+                    específica.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>nombreAtributo</td>
+                        <td>String</td>
+                        <td>Nombre del atributo a validar</td>
+                    </tr>
+                    <tr>
+                        <td>valor</td>
+                        <td>String/Number/File</td>
+                        <td>Valor actual del campo</td>
+                    </tr>
+                    <tr>
+                        <td>accion</td>
+                        <td>String</td>
+                        <td>Acción actual (determina qué validaciones aplicar)</td>
+                    </tr>
+                </table>
+                <p><strong>Validaciones aplicadas:</strong></p>
+                <ul>
+                    <li><code>min_size</code>: Tamaño mínimo del valor</li>
+                    <li><code>max_size</code>: Tamaño máximo del valor</li>
+                    <li><code>exp_reg</code>: Expresión regular para formato</li>
+                    <li><code>no_file</code>: Verifica existencia de archivo</li>
+                    <li><code>max_size_file</code>: Tamaño máximo de archivo</li>
+                    <li><code>type_file</code>: Tipos MIME permitidos</li>
+                    <li><code>format_name_file</code>: Formato del nombre de archivo</li>
+                    <li><code>date_format</code>: Validación de formato fecha</li>
+                    <li><code>personalized</code>: Validación personalizada (debe implementarse en clase específica)
+                    </li>
+                </ul>
+                <p><strong>Output:</strong> Boolean - <code>true</code> si válido, <code>false</code> si no</p>
+            </div>
+
+            <div class="method">
+                <h3>crearTablaDatos(datos, mostrarespeciales)</h3>
+                <p><strong>Descripción:</strong> Crea y muestra una tabla con los datos proporcionados, añadiendo
+                    botones de acción por fila.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>datos</td>
+                        <td>Array[Object]</td>
+                        <td>Array de objetos con los datos a mostrar</td>
+                    </tr>
+                    <tr>
+                        <td>mostrarespeciales</td>
+                        <td>Array[String]</td>
+                        <td>Atributos que requieren transformación especial (opcional)</td>
+                    </tr>
+                </table>
+                <p><strong>Características de la tabla generada:</strong></p>
+                <ul>
+                    <li>Columnas dinámicas basadas en atributos de datos</li>
+                    <li>Botones de acción (Editar, Eliminar, Ver detalle) por fila</li>
+                    <li>Filas alternas con colores para mejor legibilidad</li>
+                    <li>Hover effects en filas</li>
+                    <li>Selección de columnas visibles</li>
+                    <li>Transformación de valores especiales si se especifica</li>
+                </ul>
+            </div>
+
+            <h2 class="section-header">Clase Dom (Manipulación DOM)</h2>
+
+            <div class="method">
+                <h3>crearSeleccionablecolumnas(columnasamostrar, atributos)</h3>
+                <p><strong>Descripción:</strong> Crea un elemento select múltiple para controlar qué columnas se
+                    muestran en la tabla.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>columnasamostrar</td>
+                        <td>Array[String]</td>
+                        <td>Columnas actualmente seleccionadas para mostrar</td>
+                    </tr>
+                    <tr>
+                        <td>atributos</td>
+                        <td>Array[String]</td>
+                        <td>Todos los atributos/columnas disponibles</td>
+                    </tr>
+                </table>
+                <p><strong>Comportamiento:</strong></p>
+                <ul>
+                    <li>Filtra automáticamente columnas de acción (EDIT, DELETE, SHOWCURRENT)</li>
+                    <li>Mantiene selección actual entre actualizaciones</li>
+                    <li>Actualiza en tiempo real la visibilidad de columnas</li>
+                    <li>Formatea nombres de columnas (reemplaza '_' con espacios)</li>
+                </ul>
+            </div>
+
+            <div class="method">
+                <h3>showData(idcomponente, datatoshow, marked)</h3>
+                <p><strong>Descripción:</strong> Muestra datos en una tabla HTML dentro del elemento especificado.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>idcomponente</td>
+                        <td>String</td>
+                        <td>ID del elemento contenedor</td>
+                    </tr>
+                    <tr>
+                        <td>datatoshow</td>
+                        <td>Array[Object]</td>
+                        <td>Datos a mostrar (array de objetos)</td>
+                    </tr>
+                    <tr>
+                        <td>marked</td>
+                        <td>Object</td>
+                        <td>Reglas para resaltar celdas específicas (opcional)</td>
+                    </tr>
+                </table>
+                <p><strong>Estructura de marked:</strong></p>
+                <div class="code-block"><pre>
+                    const marked = {
+                        'nombre_columna': {
+                            value: 'valor_a_resaltar',
+                            style: 'background-color: red; font-weight: bold;'
+                        }
+                    };</pre>
+                </div>
+            </div>
+
+            <div class="method">
+                <h3>abrirModalError(errorMsg)</h3>
+                <p><strong>Descripción:</strong> Muestra un modal de error con el mensaje especificado.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>errorMsg</td>
+                        <td>String</td>
+                        <td>Código del mensaje de error (se traduce automáticamente)</td>
+                    </tr>
+                </table>
+                <p><strong>Ejemplo:</strong></p>
+                <div class="code-block"><pre>
+                    // Mostrar error genérico
+                    this.dom.abrirModalError('ERROR_SERVIDOR');
+
+                    // Mostrar error específico  
+                    this.dom.abrirModalError('email_format_KO');</pre>
+                </div>
+            </div>
+
+            <h2 class="section-header">Clase Validations</h2>
+
+            <div class="method">
+                <h3>format(id, exprreg)</h3>
+                <p><strong>Descripción:</strong> Valida si el valor de un campo coincide con la expresión regular
+                    proporcionada.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>String</td>
+                        <td>ID del elemento a validar</td>
+                    </tr>
+                    <tr>
+                        <td>exprreg</td>
+                        <td>String</td>
+                        <td>Expresión regular para validar</td>
+                    </tr>
+                </table>
+                <p><strong>Ejemplos comunes:</strong></p>
+                <div class="code-block"><pre>
+                    // Solo letras
+                    '^[a-zA-Z]+$'
+                    
+                    // Solo números  
+                    '^[0-9]+$'
+                    
+                    // Email válido
+                    '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                    
+                    // Fecha YYYY-MM-DD
+                    '^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$'
+                    
+                    // DNI español
+                    '^[0-9]{8}[A-Za-z]$'</pre>
+                </div>
+            </div>
+
+            <div class="method">
+                <h3>date_format(id)</h3>
+                <p><strong>Descripción:</strong> Valida si el valor es una fecha válida en formato YYYY-MM-DD.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>String</td>
+                        <td>ID del elemento input date</td>
+                    </tr>
+                </table>
+                <p><strong>Nota:</strong> También valida rangos de meses (01-12) y días según el mes.</p>
+            </div>
+
+            <div class="method">
+                <h3>max_size_file(id, maxsize)</h3>
+                <p><strong>Descripción:</strong> Valida que el tamaño de un archivo no exceda el límite especificado.
+                </p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>String</td>
+                        <td>ID del input type="file"</td>
+                    </tr>
+                    <tr>
+                        <td>maxsize</td>
+                        <td>Number</td>
+                        <td>Tamaño máximo en bytes (ej: 2000000 para 2MB)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="method">
+                <h3>type_file(id, array_tipos)</h3>
+                <p><strong>Descripción:</strong> Valida que el tipo MIME del archivo esté en la lista permitida.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>String</td>
+                        <td>ID del input type="file"</td>
+                    </tr>
+                    <tr>
+                        <td>array_tipos</td>
+                        <td>Array[String]</td>
+                        <td>Tipos MIME permitidos (ej: ['image/jpeg', 'application/pdf'])</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h2 class="section-header">Sistema de Internacionalización</h2>
+
+            <div class="method">
+                <h3>setLang(lang)</h3>
+                <p><strong>Descripción:</strong> Cambia el idioma de la interfaz y actualiza todos los textos
+                    traducibles.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Valores Permitidos</th>
+                    </tr>
+                    <tr>
+                        <td>lang</td>
+                        <td>String</td>
+                        <td>Código de idioma a establecer</td>
+                        <td>'ES', 'EN' (extensible a otros)</td>
+                    </tr>
+                </table>
+                <p><strong>Elementos traducidos automáticamente:</strong></p>
+                <ul>
+                    <li>Textos de elementos con clases específicas</li>
+                    <li>Labels de formularios (por atributo htmlFor)</li>
+                    <li>Placeholders y titles de inputs</li>
+                    <li>Textos alternativos de imágenes</li>
+                    <li>Labels de opciones en selects</li>
+                    <li>Mensajes de error de validación</li>
+                </ul>
+                <p><strong>Estructura de ficheros de traducción:</strong></p>
+                <div class="code-block"><pre>
+                    // Textos_ES.js / Textos_EN.js
+                    let textos_ES = {
+                        // Textos generales
+                        'text_titulo_app': 'Gestión del Sistema',
+                        'text_titulo_menu': 'Opciones de Menú',
+                        
+                        // Textos específicos de entidad  
+                        'text_title_page_persona': 'Gestión de Personas',
+                        'label_dni': 'DNI *',
+                        'input_dni': 'Introduzca el DNI',
+                        
+                        // Mensajes de error
+                        'dni_format_KO': 'Formato de DNI inválido',
+                        'email_format_KO': 'Formato de email inválido',
+                        
+                        // Textos de botones
+                        'botonADD': 'Añadir',
+                        'botonEDIT': 'Editar'
+                    };</pre>
+                </div>
+            </div>
+
+            <h2 class="section-header">Clase ExternalAccess</h2>
+
+            <div class="method">
+                <h3>peticionBackGeneral(formulario, controlador, action, datosextra)</h3>
+                <p><strong>Descripción:</strong> Realiza peticiones AJAX al backend para operaciones CRUD.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Obligatorio</th>
+                    </tr>
+                    <tr>
+                        <td>formulario</td>
+                        <td>String</td>
+                        <td>ID del formulario o '' para búsqueda inicial</td>
+                        <td>Sí</td>
+                    </tr>
+                    <tr>
+                        <td>controlador</td>
+                        <td>String</td>
+                        <td>Nombre de la entidad en el backend</td>
+                        <td>Sí</td>
+                    </tr>
+                    <tr>
+                        <td>action</td>
+                        <td>String</td>
+                        <td>Acción a realizar: 'ADD', 'EDIT', 'DELETE', 'SEARCH'</td>
+                        <td>Sí</td>
+                    </tr>
+                    <tr>
+                        <td>datosextra</td>
+                        <td>Object</td>
+                        <td>Datos adicionales para la petición (opcional)</td>
+                        <td>No</td>
+                    </tr>
+                </table>
+                <p><strong>Respuesta del backend esperada:</strong></p>
+                <div class="code-block"><pre>
+                    // Éxito con datos
+                    {
+                        "ok": true,
+                        "code": "RECORDSET_DATOS",
+                        "resource": [...]  // Array de objetos
+                    }
+                    
+                    // Éxito sin datos  
+                    {
+                        "ok": true,
+                        "code": "RECORDSET_VACIO"
+                    }
+                    
+                    // Error
+                    {
+                        "ok": false,
+                        "code": "ERROR_ESPECIFICO"
+                    }</pre>
+                </div>
+            </div>
+
+            <h2 class="section-header">Sistema de Testing</h2>
+
+            <div class="method">
+                <h3>Unit_Test(entidad)</h3>
+                <p><strong>Descripción:</strong> Realiza tests unitarios para verificar la existencia de métodos
+                    requeridos en una clase de entidad.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>entidad</td>
+                        <td>String/Class</td>
+                        <td>Nombre o referencia de la clase a testear</td>
+                    </tr>
+                </table>
+                <p><strong>Métodos verificados:</strong></p>
+                <ul>
+                    <li>Métodos de validación por acción (ADD_*_validation, EDIT_*_validation, etc.)</li>
+                    <li>Métodos createForm para cada acción</li>
+                    <li>Métodos submit para cada acción</li>
+                </ul>
+            </div>
+
+            <div class="method">
+                <h3>Data_Test(entidad)</h3>
+                <p><strong>Descripción:</strong> Realiza tests de datos para verificar el comportamiento de
+                    validaciones con datos específicos.</p>
+                <table class="param-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                    <tr>
+                        <td>entidad</td>
+                        <td>String/Class</td>
+                        <td>Nombre o referencia de la clase a testear</td>
+                    </tr>
+                </table>
+                <p><strong>Tipos de tests realizados:</strong></p>
+                <ul>
+                    <li><strong>Tests sin archivo:</strong> Validaciones de campos regulares</li>
+                    <li><strong>Tests con archivo:</strong> Validaciones de campos de archivo</li>
+                </ul>
+            </div>
+
+            <h2 class="section-header">Estilos CSS (IU.css)</h2>
+            <p>El sistema utiliza variables CSS para una gestión consistente de colores:</p>
+            <div class="code-block"><pre>
+                :root {
+                    --light-color: #EFFEFF;      /* Fondo claro */
+                    --medium-color: #a1c2c5;     /* Color medio */
+                    --dark-color: #0E2C31;       /* Color oscuro (cabecera) */
+                    --emphasis-color-1: #5ba0a5; /* Color de énfasis 1 */
+                    --emphasis-color-2: #d0f1f4; /* Color de énfasis 2 */
+                }</pre>
+            </div>
+            <p><strong>Características principales del CSS:</strong></p>
+            <ul>
+                <li>Diseño responsive (media queries para móviles)</li>
+                <li>Transiciones suaves en hover/active</li>
+                <li>Estilos consistentes en formularios modales</li>
+                <li>Tablas con filas alternas y hover effects</li>
+                <li>Sistema de modales para errores</li>
+                <li>Footer fijo en parte inferior</li>
+            </ul>
+
+            <div class="warning">
+                <strong>Consideraciones importantes:</strong>
+                <ul>
+                    <li>El sistema espera que las estructuras de entidades estén definidas en variables globales con el
+                        formato <code>estructura_[nombreEntidad]</code></li>
+                    <li>El backend debe responder en el formato especificado en ExternalAccess</li>
+                    <li>Las validaciones personalizadas requieren implementación de métodos específicos en la clase de
+                        entidad</li>
+                    <li>Los campos de archivo requieren tanto el campo de referencia (<code>is_file_ref: true</code>)
+                        como el campo de subida (<code>nuevo_*</code>)</li>
+                </ul>
+            </div>
+
+            <h2 class="section-header">Ejemplo de Uso Completo</h2>
+            <div class="code-block"><pre>
+                // 1. Seleccionar entidad desde el menú
+                // (Esto instancia automáticamente entidadGeneral)
+                
+                // 2. Añadir nuevo registro
+                entidad.createForm_ADD();                    // Abre formulario
+                // Rellenar campos...
+                document.getElementById('submit_button').click(); // Valida y envía
+                
+                // 3. Buscar registros  
+                entidad.createForm_SEARCH();                 // Abre formulario búsqueda
+                // Especificar filtros...
+                document.getElementById('submit_button').click(); // Ejecuta búsqueda
+                
+                // 4. Editar registro desde tabla
+                // (Los botones en la tabla llaman automáticamente a createForm_EDIT)
+                
+                // 5. Cambiar idioma
+                setLang('EN');  // Cambia a inglés
+                setLang('ES');  // Vuelve a español
+                
+                // 6. Seleccionar columnas a mostrar
+                // Usar el select múltiple en la cabecera de gestión</pre>
+            </div>
+            <div class="note">
+                <strong>Consejos para extender el sistema:</strong>
+                <ul>
+                    <li>Para añadir una nueva entidad, crear su estructura en <code>app/estructuras/</code></li>
+                    <li>Para añadir un nuevo idioma, crear <code>Textos_CODIGO.js</code> y modificar <code>idioma.js</code></li>
+                    <li>Para validaciones personalizadas, implementar métodos con nombre
+                        <code>specialized_test_nombreatributo()</code> en la clase específica</li>
+                    <li>Para nuevos tipos de campos HTML, extender el método <code>crearCampo()</code> en
+                        <code>entidadGeneral_Class.js</code></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class='bordeado pie_api'>
+Sistema de Gestión de Entidades Dinámicas - ET3 - Grupo 4<br>
+API v1.4 - Última actualización: 01 - 2026
+
+    </footer>
+</body>
+
+</html>

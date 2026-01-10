@@ -30,7 +30,7 @@
 	<script type="text/javascript" src="./app/estructuras/estructura_persona.js"></script>
 
 	<!-- Datos del equipo -->
-	<script type="text/javascript" src="./ET3_Datos_NombreEquipo.js"></script>
+	<script type="text/javascript" src="./ET3_Datos_Grupo4.js"></script>
 
 	<!-- este es el script que carga las librerias ajax que usamos para acceder al back -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -97,7 +97,7 @@
 	<nav class='bordeado'>
 		<!-- -->
 		<section id="info-equipo" class="bordeado">
-			<h3>Información del Equipo</h3>
+			<h3 class="info_equipo">Información del Equipo</h3>
 			<div id="datos-equipo"></div>
 		</section>
 
@@ -115,9 +115,11 @@
 			<li class="opcionmenu"><span class='text menu_ubicacion'
 					onclick="entidad = new entidadGeneral('ubicacion');">UBICACION</span></li>
 
-			<li class="opcionmenu"><span
-					onclick="entidad = new entidadGeneral(prompt('Nombre de la entidad:'));">Gestionar otra
-					entidad</span></li>
+			<li class="opcionmenu"><span class="menu_otra" onclick="
+                const nombre = prompt('Entity:');
+                if (nombre && nombre.trim()) {
+                    entidad = new entidadGeneral(nombre.trim());
+                } ">Gestionar otra entidad</span></li>
 
 		</ol>
 
@@ -178,9 +180,9 @@
 		</section>
 	</section>
 
-	<article class='bordeado'>Sección article</article>
+	<article class='bordeado article'></article>
 
-	<footer class='bordeado'>Pie de página
+	<footer class='bordeado pie'>Pie de página
 		<!--
 		<a href="./API.html">
             <img src="./iconos/API.png" alt="API Documentation" title="API Documentation" >

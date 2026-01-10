@@ -9,14 +9,24 @@ let textos_ES = {
 
 
     // textos menu
-    'text_menu_persona': 'Gestionar Personas',
+    'menu_persona': 'Gestionar Personas',
     'menu_alumnograduacion': 'Gestionar Alumnos de Graduación',
     'menu_articulo': 'Gestionar Artículos',
     'menu_ubicacion': 'Gestionar Ubicaciones',
+    'menu_otra': 'Gestionar otra entidad',
 
     'text_menu_alumnograduacion': 'Gestionar Alumnos de Graduación',
     'text_menu_articulo': 'Gestionar Artículos',
+    'text_menu_persona': 'Gestionar Personas',
     'text_menu_ubicacion': 'Gestionar Ubicaciones',
+    'text_menu_otra': 'Gestionar otra entidad',
+
+    'text_titulo_page_alumnograduacion': 'Gestionar Alumnos de Graduación',
+    'text_titulo_page_articulo': 'Gestionar Artículos',
+    'text_titulo_page_persona':  'Gestionar Personas',
+    'text_titulo_page_ubicacion':  'Gestionar Ubicaciones',
+
+    'text_title_page':'text_title_page',
 
 
     //botones de acciones
@@ -574,6 +584,12 @@ let textos_ES = {
     'error_action_msg':'Error en la acción',
     'error_action_modal': 'error_action_modal',
     'Entidad no encontrada: persona': 'Entidad no encontrada: persona',
-    'Error al buscar datos: $ is not defined':'Error al buscar datos: $ is not defined'
+    'Error al buscar datos: $ is not defined':'Error al buscar datos: $ is not defined',
+
+    'info_equipo':'Información del Equipo',
+
+    'pie':  'Sistema de Gestión de Entidades Dinámicas<br>Grupo4 ET3 IU v1.4 - Última actualización: Enero 2026',
+    'pie_api':  'Sistema de Gestión de Entidades Dinámicas - ET3 - Grupo 4<br>API v1.4 - Última actualización: Enero 2026',
+    'article': 'Sección article'
 
 };

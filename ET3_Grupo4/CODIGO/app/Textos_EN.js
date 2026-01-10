@@ -9,14 +9,22 @@ let textos_EN = {
 
 
     // menu texts
-    'text_menu_persona': 'Manage People',
+    'menu_persona': 'Manage People',
     'menu_alumnograduacion': 'Manage Graduation Students',
     'menu_articulo': 'Manage Articles',
     'menu_ubicacion': 'Manage Locations',
+    'menu_otra': 'Manage another entity',
 
     'text_menu_alumnograduacion': 'Manage Graduation Students',
     'text_menu_articulo': 'Manage Articles',
+     'text_menu_persona': 'Manage People',
     'text_menu_ubicacion': 'Manage Locations',
+    'text_menu_otra': 'Manage another entity',
+
+    'text_titulo_page_alumnograduacion': 'Manage Graduation Students',
+    'text_titulo_page_articulo': 'Manage Articles',
+    'text_titulo_page_persona':  'Manage People',
+    'text_titulo_page_ubicacion':   'Manage Locations',
 
     'botonADD': 'Add',
     'botonSEARCH': 'Search',
@@ -599,5 +607,12 @@ let textos_EN = {
     'SQL_KO': 'SQL_KO',
 
      'Entidad no encontrada: persona': 'Entity not found: person',
-    'Error al buscar datos: $ is not defined':'$ is not defined'
+
+    'Error al buscar datos: $ is not defined':'Error data search: entity is not defined',
+
+    'info_equipo':'Team Information',
+    'article': 'Article section',
+    'pie':  'Dynamic Entity Management System<br>Group4 ET3 IU v1.4 - Last updated: January 2026',
+    'pie_api':  'Dynamic Entity Management System - ET3 - Group 4<br>API v1.4 - Last Updated: January 2026'
+
 };
