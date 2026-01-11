@@ -17,13 +17,14 @@ let textos_EN = {
 
     'text_menu_alumnograduacion': 'Manage Graduation Students',
     'text_menu_articulo': 'Manage Articles',
-     'text_menu_persona': 'Manage People',
+    'text_menu_persona': 'Manage People',
     'text_menu_ubicacion': 'Manage Locations',
     'text_menu_otra': 'Manage another entity',
 
     'text_titulo_page_alumnograduacion': 'Manage Graduation Students',
     'text_titulo_page_articulo': 'Manage Articles',
     'text_titulo_page_persona':  'Manage People',
+    'text_title_page_persona':   'Manage People',
     'text_titulo_page_ubicacion':   'Manage Locations',
 
     'botonADD': 'Add',
@@ -57,7 +58,7 @@ let textos_EN = {
     */
     ///////////////////////////////////////////alumnograduacion
     // entity alumnograduacion texts
-    'text_title_page_alumnograduacion': 'Graduation Students Management',
+    'text_title_page_alumnograduacion': 'Manage Graduation Students',
     'class_contenido_titulo_form_ADD_ubicacion': 'Add Location',
     'class_contenido_titulo_form_EDIT_ubicacion': 'Edit Location',
     'class_contenido_titulo_form_DELETE_ubicacion': 'Delete Location',
@@ -214,7 +215,7 @@ let textos_EN = {
     */
     /////////////////////////articulo
 
-    'text_title_page_articulo': 'Articles Management',
+    'text_title_page_articulo': 'Manage Articles',
     'class_contenido_titulo_form_ADD_articulo': 'Add Article',
     'class_contenido_titulo_form_EDIT_articulo': 'Edit Article',
     'class_contenido_titulo_form_DELETE_articulo': 'Delete Article',
@@ -347,7 +348,7 @@ let textos_EN = {
 
 
     ///////////////////////ubicacion
-    'text_title_page_ubicacion': 'Locations Management',
+    'text_title_page_ubicacion': 'Manage Locations',
     'class_contenido_titulo_form_ADD_ubicacion': 'Add Location',
     'class_contenido_titulo_form_EDIT_ubicacion': 'Edit Location',
     'class_contenido_titulo_form_DELETE_ubicacion': 'Delete Location',

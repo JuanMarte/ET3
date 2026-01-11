@@ -44,11 +44,8 @@
                 │   ├── Dom_table_Class.js     # Tablas dinámicas<br>
                 │   ├── ExternalAccess_class.js # Comunicación backend<br>
                 │   └── Validations_Class.js   # Validaciones<br>
-                ├── locale/                    # Internacionalización<br>
-                │   └── idioma.js              # Gestión de idiomas<br>
-                └── Test/                      # Sistema de testing<br>
-                    ├── Data/                  # Tests de datos<br>
-                    └── Unit/                  # Tests unitarios<br>
+                └── locale/                    # Internacionalización<br>
+                    └── idioma.js              # Gestión de idiomas<br>
             
             </div>
 
@@ -97,8 +94,7 @@
                     };</pre>
                 </div>
             </div>
-
-            <h2 class="section-header">Clase Principal: entidadGeneral</h2>
+<h2 class="section-header">Clase Principal: entidadGeneral</h2>
             <p>Clase que gestiona dinámicamente cualquier entidad basada en su estructura definida.</p>
 
             <div class="method">
@@ -211,8 +207,7 @@
                     <li>Actualiza la tabla de datos después de operaciones CRUD</li>
                 </ol>
             </div>
-
-            <div class="method">
+<div class="method">
                 <h3>validarCampoIndividual(nombreAtributo, valor, accion)</h3>
                 <p><strong>Descripción:</strong> Valida un campo individual según las reglas definidas para la acción
                     específica.</p>
@@ -317,8 +312,7 @@
                     <li>Formatea nombres de columnas (reemplaza '_' con espacios)</li>
                 </ul>
             </div>
-
-            <div class="method">
+<div class="method">
                 <h3>showData(idcomponente, datatoshow, marked)</h3>
                 <p><strong>Descripción:</strong> Muestra datos en una tabla HTML dentro del elemento especificado.</p>
                 <table class="param-table">
@@ -420,8 +414,7 @@
                     '^[0-9]{8}[A-Za-z]$'</pre>
                 </div>
             </div>
-
-            <div class="method">
+<div class="method">
                 <h3>date_format(id)</h3>
                 <p><strong>Descripción:</strong> Valida si el valor es una fecha válida en formato YYYY-MM-DD.</p>
                 <table class="param-table">
@@ -536,8 +529,7 @@
                     };</pre>
                 </div>
             </div>
-
-            <h2 class="section-header">Clase ExternalAccess</h2>
+<h2 class="section-header">Clase ExternalAccess</h2>
 
             <div class="method">
                 <h3>peticionBackGeneral(formulario, controlador, action, datosextra)</h3>
@@ -596,57 +588,7 @@
                     }</pre>
                 </div>
             </div>
-
-            <h2 class="section-header">Sistema de Testing</h2>
-
-            <div class="method">
-                <h3>Unit_Test(entidad)</h3>
-                <p><strong>Descripción:</strong> Realiza tests unitarios para verificar la existencia de métodos
-                    requeridos en una clase de entidad.</p>
-                <table class="param-table">
-                    <tr>
-                        <th>Parámetro</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                    </tr>
-                    <tr>
-                        <td>entidad</td>
-                        <td>String/Class</td>
-                        <td>Nombre o referencia de la clase a testear</td>
-                    </tr>
-                </table>
-                <p><strong>Métodos verificados:</strong></p>
-                <ul>
-                    <li>Métodos de validación por acción (ADD_*_validation, EDIT_*_validation, etc.)</li>
-                    <li>Métodos createForm para cada acción</li>
-                    <li>Métodos submit para cada acción</li>
-                </ul>
-            </div>
-
-            <div class="method">
-                <h3>Data_Test(entidad)</h3>
-                <p><strong>Descripción:</strong> Realiza tests de datos para verificar el comportamiento de
-                    validaciones con datos específicos.</p>
-                <table class="param-table">
-                    <tr>
-                        <th>Parámetro</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                    </tr>
-                    <tr>
-                        <td>entidad</td>
-                        <td>String/Class</td>
-                        <td>Nombre o referencia de la clase a testear</td>
-                    </tr>
-                </table>
-                <p><strong>Tipos de tests realizados:</strong></p>
-                <ul>
-                    <li><strong>Tests sin archivo:</strong> Validaciones de campos regulares</li>
-                    <li><strong>Tests con archivo:</strong> Validaciones de campos de archivo</li>
-                </ul>
-            </div>
-
-            <h2 class="section-header">Estilos CSS (IU.css)</h2>
+<h2 class="section-header">Estilos CSS (IU.css)</h2>
             <p>El sistema utiliza variables CSS para una gestión consistente de colores:</p>
             <div class="code-block"><pre>
                 :root {

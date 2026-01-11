@@ -49,14 +49,14 @@
 		// Función para mostrar datos del equipo
 		function mostrarDatosEquipo() {
 			const contenedor = document.getElementById('datos-equipo');
-			if (def_datos_NombreEquipo && Array.isArray(def_datos_NombreEquipo)) {
+			if (def_datos_Grupo4 && Array.isArray(def_datos_Grupo4)) {
 				const tabla = document.createElement('table');
 				tabla.className = 'tabla-equipo';
 
 				// Cabecera
 				const thead = document.createElement('thead');
 				const trHead = document.createElement('tr');
-				Object.keys(def_datos_NombreEquipo[0]).forEach(columna => {
+				Object.keys(def_datos_Grupo4[0]).forEach(columna => {
 					const th = document.createElement('th');
 					th.textContent = columna;
 					trHead.appendChild(th);
@@ -66,7 +66,7 @@
 
 				// Datos
 				const tbody = document.createElement('tbody');
-				def_datos_NombreEquipo.forEach(alumno => {
+				def_datos_Grupo4.forEach(alumno => {
 					const tr = document.createElement('tr');
 					Object.values(alumno).forEach(valor => {
 						const td = document.createElement('td');

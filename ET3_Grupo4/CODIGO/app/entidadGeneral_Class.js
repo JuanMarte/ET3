@@ -27,9 +27,29 @@ class entidadGeneral extends EntidadAbstracta {
             return;
         }
 
-        // Configurar título
-        document.getElementById('text_title_page').textContent =
-            'Gestión de ' + this.nombreentidad;
+        // --- CÓDIGO ANTI-PARPADEO DEFINITIVO ---
+        
+        let titulo = document.getElementById('text_title_page');
+        
+        if (titulo) {
+            // 1. Asignamos la clase para futuras traducciones
+            let claveTitulo = 'text_title_page_' + this.nombreentidad;
+            titulo.className = claveTitulo;
+
+            // 2. DETECTAMOS EL IDIOMA ACTUAL AL INSTANTE
+            let idiomaActual = localStorage.getItem('lang') || 'ES';
+            let diccionario = (idiomaActual === 'EN') ? textos_EN : textos_ES;
+
+            // 3. Escribimos directamente la traducción (si existe)
+            // Esto evita que primero se escriba en español y luego cambie
+            if (diccionario && diccionario[claveTitulo]) {
+                titulo.textContent = diccionario[claveTitulo];
+            } else {
+                // Solo si falla la traducción usamos el genérico
+                titulo.textContent = 'Gestión de ' + this.nombreentidad;
+            }
+        }
+        // ---------------------------------------
     }
 
 

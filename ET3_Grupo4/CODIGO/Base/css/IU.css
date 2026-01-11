@@ -51,8 +51,9 @@ body {
 
 /* Imágenes en la cabecera (banderas de idiomas) */
 #header_page>img {
-    width: 30pt;
+    width: auto;
     height: 30pt;
+    object-fit: contain;
     padding-left: 5pt;
     padding-right: 5pt;
     cursor: pointer;
@@ -63,7 +64,7 @@ body {
 }
 
 #header_page>img:hover {
-    width: 40pt;
+    width: auto;
     height: 40pt;
     padding: 0;
 }
